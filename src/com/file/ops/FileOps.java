@@ -41,7 +41,7 @@ public class FileOps {
 	public static void log(String logStatement) throws IOException {
 
 		try {
-			File myObj = new File(getFileName());
+			File myObj = new File(NAME + "_" + count);
 			if (myObj.createNewFile()) {
 				System.out.println("File created: " + myObj.getName());
 			} else {
@@ -76,6 +76,7 @@ public class FileOps {
 		File f = new File(NAME + "_" + count); 
 		while (f.exists()) {
 			count++;
+			break;
 		}
 		return NAME + "_" + count;
 	}
