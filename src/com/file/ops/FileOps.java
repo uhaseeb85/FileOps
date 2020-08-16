@@ -8,9 +8,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Random;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FileOps.
  */
@@ -19,24 +17,11 @@ public class FileOps {
 	/** The name. */
 	private static String NAME = "filename";
 
-	/** The random string. */
-	private static String randomString;
-
 	/** The count. */
-	private static int count = 1;
-	
-	/** The file size limit in bytes. */
-	private static int FILE_SIZE_LIMIT_IN_BYTES = 20000;
+	private static int count = 0;
 
-	static {
-		int leftLimit = 97; // letter 'a'
-		int rightLimit = 122; // letter 'z'
-		int targetStringLength = 10;
-		Random random = new Random();
-		String generatedString = random.ints(leftLimit, rightLimit + 1).limit(targetStringLength)
-				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-		randomString = "_" + generatedString + "_";
-	}
+	/** The file size limit in bytes. */
+	private static int FILE_SIZE_LIMIT_IN_BYTES = 2000;
 
 	/**
 	 * The main method.
@@ -45,7 +30,8 @@ public class FileOps {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public static void main(String[] args) throws IOException {
-		for (int i = 0; i < 1000; i++) {
+		incrementFileCount();
+		for (int i = 0; i < 100; i++) {
 			log("my Sample Log");
 		}
 	}
@@ -57,27 +43,43 @@ public class FileOps {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public static void log(String logStatement) throws IOException {
-		
-		File myObj = new File(NAME + randomString + count);
+		File myObj = new File(NAME + "_" + count);
 		if (myObj.createNewFile()) {
 			System.out.println("File created: " + myObj.getName());
 		} else {
 			System.out.println("File already exists.");
 		}
 
-		Path path = Paths.get(NAME + randomString + count);
+		Path path = Paths.get(NAME + "_" + count);
 		long bytes = Files.size(path);
 		System.out.println(String.format("%,d bytes", bytes));
 		System.out.println(String.format("%,d kilobytes", bytes / 1024));
 		if (bytes > FILE_SIZE_LIMIT_IN_BYTES) {
 			// create new file.
 			count++;
-			write(logStatement, NAME + randomString + count);
+			write(logStatement, NAME + "_" + count);
 		} else {
 			// log in existing file.
-			write(logStatement, NAME + randomString + count);
+			write(logStatement, NAME + "_" + count);
 		}
 
+	}
+
+	/**
+	 * Gets the file name.
+	 *
+	 * @return the file name
+	 */
+	private static void incrementFileCount() {
+		boolean fileExists = true;
+		File f = new File(NAME + "_" + ++count);
+		while (fileExists) {
+			if (f.exists() && !f.isDirectory()) {
+				f = new File(NAME + "_" + ++count);
+			} else {
+				fileExists = false;
+			}
+		}
 	}
 
 	/**
