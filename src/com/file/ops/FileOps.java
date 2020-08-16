@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -75,21 +74,6 @@ public class FileOps {
 			write(logStatement, NAME + randomString + count);
 		}
 
-	}
-
-	/**
-	 * Gets the file name.
-	 *
-	 * @return the file name
-	 */
-	private static String getFileName() {
-		boolean fileExists = true;
-		while (fileExists) {
-			if (!new File(NAME + "_" + count++).exists()) {
-				fileExists = false;
-			}
-		}
-		return NAME + "_" + count;
 	}
 
 	/**
