@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class FileOps.
  */
@@ -23,6 +24,9 @@ public class FileOps {
 
 	/** The count. */
 	private static int count = 1;
+	
+	/** The file size limit in bytes. */
+	private static int FILE_SIZE_LIMIT_IN_BYTES = 20000;
 
 	static {
 		int leftLimit = 97; // letter 'a'
@@ -65,7 +69,7 @@ public class FileOps {
 		long bytes = Files.size(path);
 		System.out.println(String.format("%,d bytes", bytes));
 		System.out.println(String.format("%,d kilobytes", bytes / 1024));
-		if (bytes > 20000) {
+		if (bytes > FILE_SIZE_LIMIT_IN_BYTES) {
 			// create new file.
 			count++;
 			write(logStatement, NAME + randomString + count);
